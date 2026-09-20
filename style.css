@@ -29,3 +29,10 @@ nav button{display:flex;align-items:center;gap:11px}.navicon{width:22px;text-ali
 @media(max-width:560px){.grid4{grid-template-columns:1fr}.heroCard{padding:22px}.heroRing{display:none}.trainingIntro{display:block}.difficultyLegend{margin-top:15px}}
 
 .trainingStatus{display:flex;align-items:center;gap:8px;margin:10px 0;padding:9px 12px;border:1px solid var(--border,#2a2a2a);border-radius:10px;font-size:13px;color:var(--muted,#999)}.statusDot{width:8px;height:8px;border-radius:50%;background:#d6b15a;display:inline-block}.chat textarea{min-height:110px;resize:vertical}.chat .messages{min-height:320px}
+.feedbackEyebrow{display:block;color:var(--gold);font-size:9px;letter-spacing:2px;font-weight:800;margin-bottom:4px}
+.feedbackTop strong{display:block;font-size:15px}.feedbackSection{margin-top:16px;padding-top:14px;border-top:1px solid #2d2921}
+.feedbackLabel{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:#d4b975;font-weight:800;margin-bottom:7px}
+.feedbackList{margin:0;padding-left:18px;color:#c6c8cc;font-size:13px;line-height:1.55}.feedbackList li{margin:5px 0}
+.coachAnalysis{margin-top:16px;padding:14px;background:#15171b;border:1px solid #292d34;border-radius:11px}.coachAnalysis p,.whyBetter p,.coachTip p{margin:0;color:#c4c6ca;font-size:13px;line-height:1.55}
+.whyBetter{margin-top:10px;padding:14px;background:#161817;border:1px solid #2c332c;border-radius:11px}
+.coachTip{display:flex;gap:11px;margin-top:10px;padding:14px;background:#191712;border:1px solid #51452f;border-radius:11px}.coachTip .feedbackLabel{margin-bottom:4px}.tipIcon{width:25px;height:25px;flex:0 0 25px;border-radius:7px;background:#282218;color:var(--gold);display:grid;place-items:center;font-weight:900}
