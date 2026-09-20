@@ -48,7 +48,20 @@ function renderChatMessages(){
 }
 function chat(){page("Verkaufsgespräch",'<section class="card chat"><div class="chathead"><div><h2>Kundengespräch</h2><span class="muted">Realistisches Kundengespräch · direktes Trainer-Feedback</span></div><div class="chatActions"><div class="screenshotTools"><button id="chooseScreenshotFolder" type="button" class="ghost">📁 Ordner wählen</button><button id="screenshot" type="button" class="ghost">📸 Screenshot</button></div><button id="finish" class="ghost">Beenden</button></div></div><div class="trainingStatus"><span class="statusDot"></span><span>Kunde wartet auf deine Antwort</span></div><div class="messages">'+renderChatMessages()+'</div><form id="chatform"><textarea id="answer" placeholder="Antworte dem Kunden..." required></textarea><button class="primary">Antwort senden</button></form></section>',"training");document.getElementById("chooseScreenshotFolder").onclick=chooseScreenshotFolder;document.getElementById("screenshot").onclick=takeTrainingScreenshot;document.getElementById("finish").onclick=async()=>{if(S.session){const r=await db.from("chat_sessions").update({completed_at:new Date().toISOString()}).eq("id",S.session.id);if(r.error){alert("Training konnte nicht abgeschlossen werden: "+r.error.message);return}}page("Trainingsabschluss",'<section class="card">'+trainingSummary()+'<div class="summaryActions"><button class="primary" id="backDash">Zum Dashboard</button><button class="ghost" id="again">Nochmal trainieren</button></div></section>',"training");document.getElementById("backDash").onclick=()=>route("dashboard");document.getElementById("again").onclick=()=>route("training")};document.getElementById("chatform").onsubmit=send}
 
-async function updateProgress(score){let p=S.progress||{xp:0,level:1,current_streak:0,best_streak:0,last_training_date:null};let today=new Date().toISOString().slice(0,10);let streak=p.current_streak||0;if(p.last_training_date!==today){let prev=p.last_training_date?Date.parse(p.last_training_date+"T00:00:00Z"):0;let diff=prev?Math.round((Date.parse(today+"T00:00:00Z")-prev)/86400000):99;streak=diff===1?streak+1:1}let xp=(p.xp||0)+10+Math.round(score/10),level=Math.floor(xp/100)+1,best=Math.max(p.best_streak||0,streak);let r=await db.from("user_progress").upsert({user_id:S.user.id,xp,level,current_streak:streak,best_streak:best,last_training_date:today,updated_at:new Date().toISOString()}).select().single();if(!r.error)S.progress=r.data}
+async function updateProgress(score){
+ let p=S.progress||{xp:0,level:1,current_streak:0,best_streak:0,last_training_date:null};
+ let today=new Date().toISOString().slice(0,10),streak=p.current_streak||0;
+ if(p.last_training_date!==today){
+  let prev=p.last_training_date?Date.parse(p.last_training_date+"T00:00:00Z"):0;
+  let diff=prev?Math.round((Date.parse(today+"T00:00:00Z")-prev)/86400000):99;
+  streak=diff===1?streak+1:1;
+ }
+ // Fortschritt wird nur erhöht: eine schwächere Einzelantwort zieht XP/Level niemals ab.
+ let gain=10+Math.max(0,Math.round(Number(score)/10));
+ let xp=(p.xp||0)+gain,level=Math.floor(xp/100)+1,best=Math.max(p.best_streak||0,streak);
+ let r=await db.from("user_progress").upsert({user_id:S.user.id,xp,level,current_streak:streak,best_streak:best,last_training_date:today,updated_at:new Date().toISOString()}).select().single();
+ if(!r.error)S.progress=r.data;
+}
 async function send(e){
  e.preventDefault();
  const answerEl=document.getElementById("answer"),form=document.getElementById("chatform");
