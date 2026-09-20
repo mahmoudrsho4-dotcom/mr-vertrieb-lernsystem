@@ -46,3 +46,5 @@ nav button{display:flex;align-items:center;gap:11px}.navicon{width:22px;text-ali
 .chatActions{display:flex;gap:8px;align-items:center}.chatActions button{white-space:nowrap}@media(max-width:620px){.chatActions{flex-wrap:wrap}.chatActions button{flex:1}}
 
 .screenshotTools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.screenshotTools button{white-space:nowrap}
+
+.answerQuote{margin-top:14px;padding:13px 14px;background:#101216;border:1px solid #302d27;border-radius:11px}.answerQuote p{margin:0;color:#e3e3e5;font-size:13px;line-height:1.55;white-space:pre-wrap}.answerQuote .feedbackLabel{margin-bottom:6px}
